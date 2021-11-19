@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
-import useAuth from "../../../hooks/useAuth";
 
-const Orders = () => {
-  const { user } = useAuth();
-  const [orders, setOrders] = useState([]);
+const AllOrders = () => {
+  const [allOrders, setAllOrders] = useState([]);
 
   useEffect(() => {
-    const url = `https://whispering-mesa-36934.herokuapp.com/orders?email=${user.email}`;
-    fetch(url)
+    fetch("https://whispering-mesa-36934.herokuapp.com/orders")
       .then((res) => res.json())
-      .then((data) => setOrders(data));
-  }, [user.email]);
-
+      .then((data) => setAllOrders(data));
+  }, []);
+  console.log(allOrders);
   const handleDelete = (id) => {
     const deleting = window.confirm("Are you sure to delete this item?");
     if (deleting) {
@@ -23,17 +20,16 @@ const Orders = () => {
         .then((res) => res.json())
         .then((data) => {
           if (data.deletedCount) {
-            const remaining = orders.filter((order) => order._id !== id);
-            setOrders(remaining);
+            const remaining = allOrders.filter((order) => order._id !== id);
+            setAllOrders(remaining);
             alert("Order Successfully Deleted");
           }
         });
     }
   };
-
   return (
     <div>
-      <h2 className="brand-name">Hello {user.displayName}! Your orders...</h2>
+      <h2 className="text-center brand-name">Manage All Orders</h2>
       <div>
         <Table striped bordered hover responsive="sm">
           <thead>
@@ -41,11 +37,11 @@ const Orders = () => {
               <th>Product</th>
               <th>Price</th>
               <th>Adress</th>
-              <th>Cancelation</th>
+              <th>Deletation</th>
             </tr>
           </thead>
           <tbody>
-            {orders.map((order) => (
+            {allOrders.map((order) => (
               <tr>
                 <td>{order?.product}</td>
                 <td>{order?.price}</td>
@@ -55,7 +51,7 @@ const Orders = () => {
                     onClick={() => handleDelete(order._id)}
                     className="btn text-danger"
                   >
-                    Cancel
+                    Delete
                   </button>
                 </td>
               </tr>
@@ -67,4 +63,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default AllOrders;

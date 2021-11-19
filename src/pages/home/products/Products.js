@@ -5,7 +5,7 @@ import "./Products.css";
 const Products = () => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:5000/products")
+    fetch("https://whispering-mesa-36934.herokuapp.com/products")
       .then((res) => res.json())
       .then((data) => setProducts(data));
   }, []);
@@ -25,14 +25,16 @@ const Products = () => {
             <div class="card-footer d-flex align-items-center justify-content-between">
               <h5>${product?.Price}</h5>
               <Link to={`/booking/${product._id}`}>
-                <button className="btn add-btn">Buy Now</button>
+                <button className="add-btn">Buy Now</button>
               </Link>
             </div>
           </div>
         ))}
       </div>
       <div className="text-center mt-5">
-        <Link to="/allProducts"> View All </Link>
+        <Link to="/allProducts">
+          <button className="add-btn">View All</button>
+        </Link>
       </div>
     </div>
   );

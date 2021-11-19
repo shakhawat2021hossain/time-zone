@@ -6,36 +6,29 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Orders from "../orders/Orders";
 import Button from "@mui/material/Button";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useParams,
-  useRouteMatch,
-} from "react-router-dom";
+import { Switch, Route, Link, useRouteMatch } from "react-router-dom";
 import MakeAdmin from "../makeAdmin/MakeAdmin";
 import AddReview from "../addReview/AddReview";
 import DashboardHome from "../dashboardHome/DashboardHome";
 import AddProduct from "../addProduct/AddProduct";
 import Home from "../../home/home/Home";
+import useAuth from "../../../hooks/useAuth";
+import "./Dashboard.css";
+import Pay from "../pay/Pay";
+import AllOrders from "../allorders/AllOrders";
+import ManageProducts from "../manageProducts/ManageProducts";
 
 const drawerWidth = 180;
 
 function Dashboard(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const { admin, logOut, user } = useAuth();
 
   let { path, url } = useRouteMatch();
   const handleDrawerToggle = () => {
@@ -43,40 +36,44 @@ function Dashboard(props) {
   };
 
   const drawer = (
-    <div>
+    <div className="text-center drawer">
       <Toolbar />
       <Divider />
 
       <Link to="/home">
         <Button color="inherit">Home</Button>
       </Link>
-      {/* <br />
-      <Link to={`${url}`}>
-        <Button color="inherit">Dashboard</Button>
-      </Link> */}
+      <br />
       <Link to={`${url}/orders`}>
         <Button color="inherit">Orders</Button>
       </Link>
-      <Link to={`${url}/makeAdmin`}>
-        <Button color="inherit">Make Admin</Button>
-      </Link>
+      <br />
       <Link to={`${url}/addReview`}>
         <Button color="inherit">Make Review</Button>
       </Link>
-      <Link to={`${url}/addProduct`}>
-        <Button color="inherit">Add Product</Button>
+      <Link to={`${url}/pay`}>
+        <Button color="inherit">Payment</Button>
       </Link>
 
-      <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
+      {admin && (
+        <div>
+          <Link to={`${url}/addProduct`}>
+            <Button color="inherit">Add Product</Button>
+          </Link>
+          <br />
+          <Link to={`${url}/makeAdmin`}>
+            <Button color="inherit">Make Admin</Button>
+          </Link>
+          <Link to={`${url}/allOrders`}>
+            <Button color="inherit">Manage Orders</Button>
+          </Link>
+          <Link to={`${url}/allProducts`}>
+            <Button color="inherit">Manage Products</Button>
+          </Link>
+        </div>
+      )}
+      <Divider />
+      {user?.email && <Button onClick={logOut}>Log Out</Button>}
     </div>
   );
 
@@ -158,7 +155,7 @@ function Dashboard(props) {
           <Route exact path="/">
             <Home></Home>
           </Route>
-          <Route path="/orders">
+          <Route path={`${path}/orders`}>
             <Orders></Orders>
           </Route>
           <Route exact path={path}>
@@ -173,6 +170,15 @@ function Dashboard(props) {
           </Route>
           <Route path={`${path}/addProduct`}>
             <AddProduct></AddProduct>
+          </Route>
+          <Route path={`${path}/pay`}>
+            <Pay></Pay>
+          </Route>
+          <Route path={`${path}/allOrders`}>
+            <AllOrders></AllOrders>
+          </Route>
+          <Route path={`${path}/allProducts`}>
+            <ManageProducts></ManageProducts>
           </Route>
         </Switch>
       </Box>

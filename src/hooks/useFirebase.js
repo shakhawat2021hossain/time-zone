@@ -15,6 +15,7 @@ initializeFirebase();
 const useFirebase = () => {
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [admin, setAdmin] = useState(false);
 
   const auth = getAuth();
 
@@ -56,10 +57,18 @@ const useFirebase = () => {
 
   const saveUser = (email, displayName) => {
     const user = { email, displayName };
-    axios.post("http://localhost:5000/users", user).then((res) => {
-      console.log(res);
-    });
+    axios
+      .post("https://whispering-mesa-36934.herokuapp.com/users", user)
+      .then((res) => {
+        console.log(res);
+      });
   };
+
+  useEffect(() => {
+    fetch(`https://whispering-mesa-36934.herokuapp.com/users/${user.email}`)
+      .then((res) => res.json())
+      .then((data) => setAdmin(data.admin));
+  }, [user.email]);
 
   const logOut = () => {
     setIsLoading(true);
@@ -82,6 +91,7 @@ const useFirebase = () => {
 
   return {
     user,
+    admin,
     isLoading,
     logOut,
     userRegister,

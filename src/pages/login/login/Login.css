@@ -11,7 +11,8 @@
 .register input[type="email"],
 .register input[type="text"],
 .login input[type="password"],
-.register input[type="password"] {
+.register input[type="password"],
+.make-admin input[type="email"] {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -26,7 +27,7 @@
   background-color: #007bff;
   font-weight: 500;
   color: white;
-  padding: 14px 20px;
+  padding: 12px 20px;
   margin: 8px 0;
   border: none;
   cursor: pointer;

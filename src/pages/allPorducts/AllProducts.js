@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Footer from "../shared/footer/Footer";
 import Header from "../shared/header/Header";
 
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:5000/products")
+    fetch("https://whispering-mesa-36934.herokuapp.com/products")
       .then((res) => res.json())
       .then((data) => setProducts(data));
   }, []);
@@ -26,12 +27,10 @@ const AllProducts = () => {
               </div>
               <div class="card-footer d-flex align-items-center justify-content-between">
                 <h5>${product?.Price}</h5>
-                <button className="btn add-btn">Buy Now</button>
+                <Link to={`/booking/${product._id}`}>
+                  <button className="add-btn">Buy Now</button>
+                </Link>
               </div>
-
-              {/* <Link to={`/booking/${product._id}`}>
-            <button>Book Now</button>
-          </Link> */}
             </div>
           ))}
         </div>

@@ -1,0 +1,15 @@
+.reviews-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+}
+.reviews-container .img {
+  width: 30%;
+  margin: 0 auto;
+}
+.reviews-container > div {
+  text-align: center;
+}
+.reviews-container img {
+  width: 100%;
+}

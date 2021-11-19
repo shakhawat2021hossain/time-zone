@@ -1,15 +1,19 @@
 import axios from "axios";
 import React from "react";
 import { useForm } from "react-hook-form";
+import useAuth from "../../../hooks/useAuth";
 import "./AddReview.css";
 
 const AddReview = () => {
   const { register, handleSubmit } = useForm();
+  const { user } = useAuth();
   const onSubmit = (data) => {
     console.log(data);
-    axios.post("http://localhost:5000/addReview", data).then((res) => {
-      console.log(res);
-    });
+    axios
+      .post("https://whispering-mesa-36934.herokuapp.com/addReview", data)
+      .then((res) => {
+        console.log(res);
+      });
   };
   return (
     <div className="my-3 container add-review">
@@ -17,22 +21,24 @@ const AddReview = () => {
       <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <input
           type="text"
-          {...register("Name", { required: true })}
+          {...register("name", { required: true })}
           placeholder="Your Name"
+          defaultValue={user.displayName}
         />
         <input
           type="text"
-          {...register("Profession", { required: true })}
+          {...register("profession", { required: true })}
           placeholder="Your Profession?"
         />
         <input
+          step="any"
           type="number"
-          {...register("Ratting", { required: true })}
+          {...register("ratting", { required: true })}
           placeholder="Rate out of 5"
         />
         <textarea
           type="text"
-          {...register("Description", { required: true })}
+          {...register("description", { required: true })}
           placeholder="Description"
         />
         <input type="submit" className="btn add-btn" value="Post Review" />

@@ -7,9 +7,11 @@ const AddProduct = () => {
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => {
     console.log(data);
-    axios.post("http://localhost:5000/addProduct", data).then((res) => {
-      console.log(res);
-    });
+    axios
+      .post("https://whispering-mesa-36934.herokuapp.com/addProduct", data)
+      .then((res) => {
+        console.log(res);
+      });
   };
 
   return (

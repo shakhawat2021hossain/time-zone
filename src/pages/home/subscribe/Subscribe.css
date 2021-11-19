@@ -1,0 +1,8 @@
+.subscribe input {
+  padding: 6px 30px;
+  margin: 8px 0;
+  width: 400px;
+}
+.subscribe button {
+  border-radius: 0;
+}
