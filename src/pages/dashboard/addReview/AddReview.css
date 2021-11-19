@@ -1,0 +1,7 @@
+.heading {
+  color: rgb(63, 128, 248);
+}
+textarea {
+  resize: none;
+  height: 100px;
+}
